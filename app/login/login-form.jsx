@@ -1,9 +1,20 @@
 "use client";
+
+import { useState } from "react";
+
 export default function LoginForm() {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
+    const handleSubmit = (e) => {
+      e.preventDefault();
+      console.log("Form Data:", {email: email, password: password});
+    }
+
   return (
     <div className="w-[400px] mx-auto">
         <div className=" bg-blue-100 shadow-xl border border-gray-200 rounded-lg p-4">
-          <form action="#" className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-6">
             <h3 className="text-center text-xl font-semibold text-gray-900">
               Sign in to AvidzVerse
             </h3>
@@ -18,6 +29,8 @@ export default function LoginForm() {
               <input
                 type="email"
                 name="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 id="email"
                 className="bg-gray-50 border border-gray-300 rounded-xl text-gray-900 focus:ring-1 focus:ring-offset-1 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                 placeholder="yourname@email.com"
@@ -34,6 +47,8 @@ export default function LoginForm() {
               <input
                 type="password"
                 name="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 id="password"
                 className="bg-gray-50 border border-gray-300 rounded-xl text-gray-900 focus:ring-1 focus:ring-offset-1 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                 placeholder="•••••••••••"
