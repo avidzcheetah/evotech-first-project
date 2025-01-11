@@ -2,6 +2,8 @@
 
 ## Getting Started
 
+Hi 
+
 First, run the development server:
 
 ```bash
