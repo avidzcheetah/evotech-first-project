@@ -16,7 +16,7 @@ export default function LoginForm() {
         <div className=" bg-blue-100 shadow-xl border border-gray-200 rounded-lg p-4">
           <form onSubmit={handleSubmit} className="space-y-6">
             <h3 className="text-center text-xl font-semibold text-gray-900">
-              Sign in to AvidzVerse
+              Sign in to MeowCoderz
             </h3>
 
             <div>
@@ -33,7 +33,7 @@ export default function LoginForm() {
                 onChange={(e) => setEmail(e.target.value)}
                 id="email"
                 className="bg-gray-50 border border-gray-300 rounded-xl text-gray-900 focus:ring-1 focus:ring-offset-1 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                placeholder="yourname@email.com"
+                placeholder="Enter email address"
               />
             </div>
 
@@ -51,7 +51,7 @@ export default function LoginForm() {
                 onChange={(e) => setPassword(e.target.value)}
                 id="password"
                 className="bg-gray-50 border border-gray-300 rounded-xl text-gray-900 focus:ring-1 focus:ring-offset-1 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                placeholder="•••••••••••"
+                placeholder="Enter password"
               />
             </div>
 
