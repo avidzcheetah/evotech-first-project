@@ -5,10 +5,31 @@ import { useState } from "react";
 export default function LoginForm() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [emailError, setEmailError] = useState("");
+    const [passwordError, setPasswordError] = useState("");
+
+    const validateForm = () => {
+      if(!email){
+        setEmailError("Email is required!");
+        return false;
+      } else {
+        setEmailError("");
+      }
+      if(!password){
+        setPasswordError("Password is required!");
+        return false;
+      } else {
+        setPasswordError("");
+      }
+      return true; 
+    }
 
     const handleSubmit = (e) => {
       e.preventDefault();
-      console.log("Form Data:", {email: email, password: password});
+      const isValid = validateForm();
+      if(isValid){
+        console.log("Form Data:", {email: email, password: password});
+      }
     }
 
   return (
@@ -35,6 +56,7 @@ export default function LoginForm() {
                 className="bg-gray-50 border border-gray-300 rounded-xl text-gray-900 focus:ring-1 focus:ring-offset-1 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                 placeholder="Enter email address"
               />
+              {emailError && <div className="text-red-600 text-xs mt-2 ml-1">{emailError}</div>}
             </div>
 
             <div>
@@ -53,6 +75,7 @@ export default function LoginForm() {
                 className="bg-gray-50 border border-gray-300 rounded-xl text-gray-900 focus:ring-1 focus:ring-offset-1 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                 placeholder="Enter password"
               />
+              {passwordError && <div className="text-red-600 text-xs mt-2 ml-1">{passwordError}</div>}
             </div>
 
             <div className="flex">
