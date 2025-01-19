@@ -25,12 +25,12 @@ export default function LoginForm() {
     return true;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const isValid = validateForm();
     if (isValid) {
-      console.log("Form Data:", { email: email, password: password });
-      loginUser({ email: email, password: password });
+      const login = await loginUser({ email: email, password: password });
+      console.log("LOGIN RESPONSE", login);
     }
   };
 
