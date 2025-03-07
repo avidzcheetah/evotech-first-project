@@ -39,7 +39,7 @@ export default function LoginForm() {
       <div className=" bg-blue-100 shadow-xl border border-gray-200 rounded-lg p-4">
         <form onSubmit={handleSubmit} className="space-y-6">
           <h3 className="text-center text-xl font-semibold text-gray-900">
-            Sign in to MeowCoderz
+            Sign in to MFlix
           </h3>
 
           <div>
