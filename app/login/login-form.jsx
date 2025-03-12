@@ -36,7 +36,7 @@ export default function LoginForm() {
 
   return (
     <div className="w-[400px] mx-auto">
-      <div className=" bg-blue-100 shadow-xl border border-gray-200 rounded-lg p-4">
+      <div className=" bg-blue-50/90 shadow-xl border border-gray-200 rounded-lg p-4">
         <form onSubmit={handleSubmit} className="space-y-6">
           <h3 className="text-center text-xl font-semibold text-gray-900">
             Sign in to MFlix
@@ -112,7 +112,7 @@ export default function LoginForm() {
 
           <button
             type="submit"
-            className="w-full text-white bg-blue-700 rounded-lg hover:bg-blue-900 focus:ring-4 focus:ring-blue-300 text-sm px-5 py-2.5"
+            className="w-full text-white bg-black rounded-lg hover:bg-gray-700 focus:ring-4 focus:ring-blue-300 text-sm px-5 py-2.5"
           >
             Sign In
           </button>
