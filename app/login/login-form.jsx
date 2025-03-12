@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { loginUser } from "../libs/apis/server";
+import { loginUser } from "@/lib/apis/server";
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");

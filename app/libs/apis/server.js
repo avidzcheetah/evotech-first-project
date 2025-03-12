@@ -12,7 +12,7 @@ export const loginUser = async (loginData) => {
   console.log("LOGIN ACTION", response.json());
 };
 
-export const getMovies = async () => {
+/* export const getMovies = async () => {
   try {
     const response = await api.get("movies", {
       cache: "no-store",
@@ -36,4 +36,4 @@ export const getMovies = async () => {
     }
     return undefined;
   }
-};
+}; */
