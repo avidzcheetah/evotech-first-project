@@ -7,6 +7,7 @@ const MOVIES = [
   { id: 3, title: "Intesteller" },
   { id: 4, title: "Awaken" },
   { id: 5, title: "The Martian" },
+  { id: 6, title: "After" },
 ];
 
 export const GET = async (req) => {
