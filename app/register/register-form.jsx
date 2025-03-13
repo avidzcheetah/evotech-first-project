@@ -15,7 +15,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { signUp } from "@/lib/auth-client";
+import { ToastAction } from "@/components/ui/toast";
 import { registerUser } from "@/lib/apis/server";
 
 const DEFAULT_ERROR = {
@@ -45,6 +45,17 @@ export default function RegisterForm() {
         setLoading(false);
         if (registerResp?.error) {
           setError({ error: true, message: registerResp.error });
+        } else {
+          toast({
+            variant: "success",
+            title: "Registration successful!",
+            description: "Please continue with login",
+            action: (
+              <ToastAction altText="Login" className="hover:bg-green-700">
+                Login
+              </ToastAction>
+            ),
+          });
         }
       } else {
         setError({ error: true, message: "Passwords doesn't match" });
