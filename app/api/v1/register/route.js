@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { db } from "@/lib/mongodb";
+import clientPromise from "@/app/libs/mongodb";
 import bcrypt from "bcrypt";
 
 export const POST = async (req) => {
@@ -8,15 +8,16 @@ export const POST = async (req) => {
 
     if (!name || !email || !password) {
       return NextResponse.json(
-        { error: "Name, email, and password are required." },
+        { error: "Name, email and password are required." },
         { status: 400 }
       );
     }
 
-    // TODO: You can do the further data validations here
+    const client = await clientPromise();
+    const db = client.db("sample_mflix");
 
     const existingUser = await db.collection("users").findOne({ email });
-
+    console.log("Is existing user", existingUser);
     if (existingUser) {
       return NextResponse.json(
         { error: "User with this email already exists." },
