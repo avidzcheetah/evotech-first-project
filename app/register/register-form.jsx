@@ -16,6 +16,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { signUp } from "@/lib/auth-client";
+import { registerUser } from "@/lib/apis/server";
 
 const DEFAULT_ERROR = {
   error: false,
@@ -39,6 +40,12 @@ export default function RegisterForm() {
     if (name && email && password && confirmPassword) {
       if (password === confirmPassword) {
         setError(DEFAULT_ERROR);
+        setLoading(true);
+        const registerResp = await registerUser({ name, email, password });
+        setLoading(false);
+        if (registerResp?.error) {
+          setError({ error: true, message: registerResp.error });
+        }
       } else {
         setError({ error: true, message: "Passwords doesn't match" });
       }
