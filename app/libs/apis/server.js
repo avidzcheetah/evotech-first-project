@@ -15,7 +15,7 @@ export const loginUser = async (loginData) => {
 export const registerUser = async (formData) => {
   console.log("Form Data", formData);
   try {
-    const response = await api.post("register", { json: formData });
+    const response = await api.post("v1/register", { json: formData });
     console.log("Reg Response", response);
     if (response.ok) {
       return response.json();
@@ -38,7 +38,7 @@ export const registerUser = async (formData) => {
 
 /* export const getMovies = async () => {
   try {
-    const response = await api.get("movies", {
+    const response = await api.get("v1/movies", {
       cache: "no-store",
     });
     if (response.ok) {
