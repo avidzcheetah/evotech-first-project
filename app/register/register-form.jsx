@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { redirect } from "next/navigation";
 import {
   Card,
   CardContent,
@@ -16,7 +17,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { ToastAction } from "@/components/ui/toast";
-import { registerUser } from "@/lib/apis/server";
+// import { registerUser } from "@/lib/apis/server";
+import { signUp } from "@/lib/auth-client";
 
 const DEFAULT_ERROR = {
   error: false,
@@ -40,7 +42,7 @@ export default function RegisterForm() {
     if (name && email && password && confirmPassword) {
       if (password === confirmPassword) {
         setError(DEFAULT_ERROR);
-        setLoading(true);
+        /* setLoading(true);
         const registerResp = await registerUser({ name, email, password });
         setLoading(false);
         if (registerResp?.error) {
@@ -56,6 +58,47 @@ export default function RegisterForm() {
               </ToastAction>
             ),
           });
+        } */
+        setLoading(true);
+        const { data, error } = await signUp.email(
+          {
+            email: email,
+            password: password,
+            name: name,
+            image: undefined,
+          },
+          {
+            onRequest: (ctx) => {
+              console.log("onRequest", ctx);
+            },
+            onSuccess: (ctx) => {
+              console.log("onSuccess", ctx);
+              toast({
+                variant: "success",
+                title: "Registration successful!",
+                description: "Redirecting to the dashboard...",
+                action: (
+                  <ToastAction
+                    altText="Continue"
+                    className="hover:bg-green-700"
+                  >
+                    Continue
+                  </ToastAction>
+                ),
+              });
+              redirect("/dashboard");
+            },
+            onError: (ctx) => {
+              if (ctx) {
+                setError({ error: true, message: ctx.error.message });
+              }
+            },
+          }
+        );
+        setLoading(false);
+
+        if (data) {
+          console.log("data", data);
         }
       } else {
         setError({ error: true, message: "Passwords doesn't match" });
@@ -65,7 +108,7 @@ export default function RegisterForm() {
 
   return (
     <div className="flex justify-center items-center min-h-screen">
-      <Card className="bg-blue-50/90 w-[350px]">
+      <Card className="bg-white w-[350px]">
         <CardHeader>
           <CardTitle className="text-center">Create an account</CardTitle>
           <CardDescription className="text-xs text-center">

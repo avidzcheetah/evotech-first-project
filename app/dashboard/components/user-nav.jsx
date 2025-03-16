@@ -17,7 +17,6 @@ import { useSession, signOut } from "@/lib/auth-client";
 
 export default function UserNav() {
   const { data: session } = useSession();
-
   console.log(session);
 
   const handleLogout = async () => {
