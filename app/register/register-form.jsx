@@ -15,8 +15,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { ToastAction } from "@/components/ui/toast";
-import { registerUser } from "@/lib/apis/server";
+/* import { ToastAction } from "@/components/ui/toast";
+import { registerUser } from "@/lib/apis/server"; */
+import { signUp } from "@/lib/auth-client";
 
 const DEFAULT_ERROR = {
   error: false,
@@ -40,7 +41,7 @@ export default function RegisterForm() {
     if (name && email && password && confirmPassword) {
       if (password === confirmPassword) {
         setError(DEFAULT_ERROR);
-        setLoading(true);
+        /* setLoading(true);
         const registerResp = await registerUser({ name, email, password });
         setLoading(false);
         if (registerResp?.error) {
@@ -56,6 +57,33 @@ export default function RegisterForm() {
               </ToastAction>
             ),
           });
+        } */
+        setLoading(true);
+        const { data, error } = await signUp.email(
+          {
+            email: email,
+            password: password,
+            name: name,
+            image: undefined,
+          },
+          {
+            onRequest: (ctx) => {
+              console.log("onRequest", ctx);
+            },
+            onSuccess: (ctx) => {
+              console.log("onSuccess", ctx);
+            },
+            onError: (ctx) => {
+              if (ctx) {
+                setError({ error: true, message: ctx.error.message });
+              }
+            },
+          }
+        );
+        setLoading(false);
+
+        if (data) {
+          console.log("data", data);
         }
       } else {
         setError({ error: true, message: "Passwords doesn't match" });

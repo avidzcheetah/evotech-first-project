@@ -1,14 +1,4 @@
-import RegisterForm from "./register-form";
-
-export default function RegisterPage() {
-  return (
-    <div className="container mx-auto">
-      <RegisterForm />
-    </div>
-  );
-}
-
-/* import { headers } from "next/headers";
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import RegisterForm from "./register-form";
@@ -28,4 +18,4 @@ export default async function RegisterPage() {
       <RegisterForm />
     </div>
   );
-} */
+}
