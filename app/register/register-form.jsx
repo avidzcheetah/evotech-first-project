@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { redirect } from "next/navigation";
 import {
   Card,
   CardContent,
@@ -15,8 +16,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-/* import { ToastAction } from "@/components/ui/toast";
-import { registerUser } from "@/lib/apis/server"; */
+import { ToastAction } from "@/components/ui/toast";
+// import { registerUser } from "@/lib/apis/server";
 import { signUp } from "@/lib/auth-client";
 
 const DEFAULT_ERROR = {
@@ -72,6 +73,20 @@ export default function RegisterForm() {
             },
             onSuccess: (ctx) => {
               console.log("onSuccess", ctx);
+              toast({
+                variant: "success",
+                title: "Registration successful!",
+                description: "Redirecting to the dashboard...",
+                action: (
+                  <ToastAction
+                    altText="Continue"
+                    className="hover:bg-green-700"
+                  >
+                    Continue
+                  </ToastAction>
+                ),
+              });
+              redirect("/dashboard");
             },
             onError: (ctx) => {
               if (ctx) {
@@ -93,7 +108,7 @@ export default function RegisterForm() {
 
   return (
     <div className="flex justify-center items-center min-h-screen">
-      <Card className="bg-blue-50/90 w-[350px]">
+      <Card className="bg-white w-[350px]">
         <CardHeader>
           <CardTitle className="text-center">Create an account</CardTitle>
           <CardDescription className="text-xs text-center">
