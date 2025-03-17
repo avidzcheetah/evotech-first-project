@@ -1,6 +1,6 @@
-import { Suspense } from "react";
 import Link from "next/link";
 import { Eye, Shell } from "lucide-react";
+import { Suspense } from "react";
 import {
   Card,
   CardContent,
@@ -11,12 +11,15 @@ import {
 import { Button } from "@/components/ui/button";
 import MovieData from "./movie-data";
 
-export default function MoviesPage() {
+export default async function MoviesAdminPage() {
   return (
     <div className="space-y-4">
       <div className="flex justify-end">
         <Link href="/movies">
-          <Button variant="outline">
+          <Button
+            variant="outline"
+            className="hover:border-secondary-300 hover:bg-secondary-100/30"
+          >
             <Eye />
             View as User
           </Button>
@@ -33,8 +36,8 @@ export default function MoviesPage() {
         <CardContent>
           <Suspense
             fallback={
-              <div className="flex justify-center items-center h-[186px]">
-                <Shell className="animate-spin duration-1000 text-blue-600" />
+              <div className="flex justify-center items-center h-[186.5px]">
+                <Shell className="animate-spin duration-1000 text-primary-400" />
               </div>
             }
           >

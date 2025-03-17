@@ -1,3 +1,6 @@
+"use client";
+
+import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -8,21 +11,18 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 
-export default function DeleteMovieDialog({
-  open,
-  movie,
-  onConfirm,
-  onCancel,
-  isLoading,
-}) {
+export function DeleteMovieDialog({ movie, onConfirm, onCancel, isLoading }) {
   return (
-    <Dialog open={open} onOpenChange={onCancel}>
+    <Dialog open={true} onOpenChange={onCancel}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Delete Movie</DialogTitle>
+          <DialogTitle>Delete Record</DialogTitle>
           <DialogDescription>
-            Are you sure you want to delete the movie <b>{movie.title}</b>? This
-            action cannot be undone.
+            Are you sure you want to delete the movie{" "}
+            <b>
+              {movie.title} ({movie.year})
+            </b>
+            ? This action cannot be undone.
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
@@ -31,10 +31,10 @@ export default function DeleteMovieDialog({
           </Button>
           <Button
             variant="destructive"
-            onClick={onConfirm}
+            onClick={() => onConfirm(movie.id)}
             disabled={isLoading}
           >
-            Delete
+            {isLoading && <Loader2 className="animate-spin" />} Delete
           </Button>
         </DialogFooter>
       </DialogContent>
