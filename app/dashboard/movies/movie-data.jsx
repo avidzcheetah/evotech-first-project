@@ -1,6 +1,8 @@
-import { db } from "@/lib/mongodb";
+import clientPromise from "@/app/libs/mongodb";
 import MovieTable from "./movie-table";
 
+const client = await clientPromise();
+const db = client.db("sample_mflix");
 // Next.js will invalidate the cache when a
 // request comes in, at most once every 60 seconds.
 export const revalidate = 60;
