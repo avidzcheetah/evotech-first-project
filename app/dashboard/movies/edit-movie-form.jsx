@@ -2,13 +2,10 @@
 
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -16,26 +13,23 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 import { MultiSelect } from "@/components/multi-select";
 import { GENRES, RATINGS } from "@/lib/constants";
 
-export default function EditMovieForm({
-  movie,
-  open,
-  onSubmit,
-  onCancel,
-  isLoading,
-}) {
-  const [title, setTitle] = useState(movie?.title);
-  const [year, setYear] = useState(movie?.year);
-  const [plot, setPlot] = useState(movie?.plot);
-  const [genres, setGenres] = useState(movie?.genres);
-  const [poster, setPoster] = useState(movie?.poster);
-  const [rated, setRated] = useState(movie?.rated);
+export function EditMovieForm({ movie, onSubmit, onCancel, isLoading }) {
+  const [title, setTitle] = useState(movie.title);
+  const [year, setYear] = useState(movie.year);
+  const [plot, setPlot] = useState(movie.plot);
+  const [genres, setGenres] = useState(movie.genres);
+  const [poster, setPoster] = useState(movie.poster);
+  const [rated, setRated] = useState(movie.rated);
   const [imdbRating, setIMDbRating] = useState(movie.imdb?.rating ?? 0);
 
   const genresList = GENRES.map((genre) => ({
@@ -43,14 +37,12 @@ export default function EditMovieForm({
     value: genre,
   }));
 
-  const handleSubmitForm = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    // Save the updated movie to the database
     onSubmit({
       ...movie,
       title,
       year,
-      plot,
       genres,
       poster,
       rated,
@@ -59,13 +51,15 @@ export default function EditMovieForm({
   };
 
   return (
-    <Dialog open={open} onOpenChange={onCancel}>
+    <Dialog open={true} onOpenChange={onCancel}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Edit Movie</DialogTitle>
-          <DialogDescription>Update the selected movie</DialogDescription>
+          <DialogDescription className="sr-only">
+            Update movie dialog
+          </DialogDescription>
         </DialogHeader>
-        <form onSubmit={handleSubmitForm}>
+        <form onSubmit={handleSubmit}>
           <div className="space-y-4">
             <div>
               <Label htmlFor="title">Movie Title</Label>
@@ -77,7 +71,6 @@ export default function EditMovieForm({
                 placeholder="Enter the movie title"
               />
             </div>
-
             <div>
               <Label htmlFor="year">Movie Year</Label>
               <Input
@@ -89,7 +82,6 @@ export default function EditMovieForm({
                 placeholder="Enter the year"
               />
             </div>
-
             <div>
               <Label htmlFor="plot">Movie Plot</Label>
               <Textarea
@@ -100,7 +92,6 @@ export default function EditMovieForm({
                 placeholder="Enter the movie plot"
               />
             </div>
-
             <div>
               <Label htmlFor="genres">Movie Genres</Label>
               <MultiSelect
@@ -108,6 +99,18 @@ export default function EditMovieForm({
                 placeholder="Select movie genres"
                 selectedItems={genres}
                 onValueChange={setGenres}
+              />
+            </div>
+
+            <div>
+              <Label htmlFor="poster">Poster URL</Label>
+              <Input
+                id="poster"
+                name="poster"
+                type="text"
+                value={poster}
+                onChange={(e) => setPoster(e.target.value)}
+                placeholder="Enter the poster URL"
               />
             </div>
 
@@ -135,30 +138,22 @@ export default function EditMovieForm({
                 max="10.0"
                 step="0.1"
                 type="number"
+                value={imdbRating}
+                onChange={(e) => setIMDbRating(Number(e.target.value))}
                 placeholder="Enter imdb rating"
-                value={imdbRating} // Controlled input
-                onChange={(e) => setIMDbRating(Number(e.target.value))} // Controlled input
-              />
-            </div>
-
-            <div>
-              <Label htmlFor="poster">Poster URL</Label>
-              <Input
-                id="poster"
-                name="poster"
-                type="text"
-                value={poster}
-                onChange={(e) => setPoster(e.target.value)}
-                placeholder="Enter the poster URL"
               />
             </div>
 
             <div className="w-full flex justify-end space-x-2">
-              <Button type="reset" variant="outline">
-                Clear Form
+              <Button type="button" variant="outline" onClick={onCancel}>
+                Cancel
               </Button>
-              <Button type="submit" disabled={isLoading}>
-                {isLoading && <Loader2 className="animate-spin" />} Add Movie
+              <Button
+                type="submit"
+                className="min-w-[120px]"
+                disabled={isLoading}
+              >
+                {isLoading && <Loader2 className="animate-spin" />} Save Changes
               </Button>
             </div>
           </div>

@@ -1,6 +1,5 @@
 "use client";
 
-import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -11,30 +10,23 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 
-export function DeleteMovieDialog({ movie, onConfirm, onCancel, isLoading }) {
+export function DeleteRecordDialog({ record, onConfirm, onCancel }) {
   return (
     <Dialog open={true} onOpenChange={onCancel}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Delete Record</DialogTitle>
           <DialogDescription>
-            Are you sure you want to delete the movie{" "}
-            <b>
-              {movie.title} ({movie.year})
-            </b>
-            ? This action cannot be undone.
+            Are you sure you want to delete the record for {record.name}? This
+            action cannot be undone.
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <Button variant="outline" onClick={onCancel} disabled={isLoading}>
+          <Button variant="outline" onClick={onCancel}>
             Cancel
           </Button>
-          <Button
-            variant="destructive"
-            onClick={() => onConfirm(movie.id)}
-            disabled={isLoading}
-          >
-            {isLoading && <Loader2 className="animate-spin" />} Delete
+          <Button variant="destructive" onClick={() => onConfirm(record.id)}>
+            Delete
           </Button>
         </DialogFooter>
       </DialogContent>

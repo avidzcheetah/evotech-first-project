@@ -1,24 +1,15 @@
-import { db } from "@/lib/mongodb";
-import MovieTable from "./movie-table";
+import clientPromise from "@/app/libs/mongodb";
+import { MovieTable } from "./movie-table";
 
-// Next.js will invalidate the cache when a
-// request comes in, at most once every 60 seconds.
-export const revalidate = 60;
-
-// Movie data server component
-// server action call directly to mongodb
 export default async function MovieData() {
   try {
-    const moviesQuery = await db
-      .collection("movies_n")
-      .find({})
-      .sort({ metacritic: -1 })
-      .limit(50)
-      .toArray();
+    const client = await clientPromise();
+    const db = client.db("sample_mflix");
 
-    if (moviesQuery) {
-      // Refine movies query to a array
-      const refinedMovies = moviesQuery.map((movie) => ({
+    const movies = await db.collection("movies").find({}).limit(50).toArray();
+
+    if (movies) {
+      const refinedMovies = movies.map((movie) => ({
         id: movie._id.toString(),
         title: movie.title,
         year: movie.year,
@@ -29,8 +20,6 @@ export default async function MovieData() {
         imdb: movie.imdb,
       }));
 
-      // Pass movies refined data to movies table
-      // Return MovieTable
       return <MovieTable movies={refinedMovies} />;
     }
   } catch (error) {

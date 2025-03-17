@@ -1,7 +1,8 @@
 "use client";
 
+import { useState } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -10,27 +11,30 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useState } from "react";
-import EditMovieForm from "./edit-movie-form";
-import { updateMovie, deleteMovie } from "@/lib/actions/movie";
-import DeleteMovieDialog from "./delete-movie-dialog";
+import { Button } from "@/components/ui/button";
+import { EditMovieForm } from "./edit-movie-form";
+import { DeleteMovieDialog } from "./delete-movie-dialog";
+import { deleteMovie, updateMovie } from "@/actions/movie";
 
-export default function MovieTable({ movies }) {
-  const [isSaving, setIsSaving] = useState(false);
+export function MovieTable({ movies }) {
+  const [isSaving, setSaving] = useState(false);
   const [isDeleting, setDeleting] = useState(false);
   const [editingMovie, setEditingMovie] = useState(null);
-  const [deletingMovie, setDeletingMovie] = useState(null);
+  const [deletingRecord, setDeletingRecord] = useState(null);
   const router = useRouter();
 
   const handleEdit = (movie) => {
     setEditingMovie(movie);
   };
 
+  const handleDelete = (movie) => {
+    setDeletingRecord(movie);
+  };
+
   const handleEditSubmit = async (movie) => {
-    // JavaScript ES6 Destructuring
-    const { id, title, year, plot, rated, genres, poster, imdb } = movie;
-    setIsSaving(true);
-    const resp = await updateMovie(id, {
+    const { title, year, plot, rated, genres, poster, imdb } = movie;
+    setSaving(true);
+    const resp = await updateMovie(movie.id, {
       title,
       year,
       plot,
@@ -39,24 +43,19 @@ export default function MovieTable({ movies }) {
       poster,
       imdb,
     });
-    setIsSaving(false);
+    setSaving(false);
     if (resp?.success) {
       setEditingMovie(null);
       router.refresh();
     }
   };
 
-  const handleDelete = (movie) => {
-    setDeletingMovie(movie);
-  };
-
   const handleDeleteConfirm = async (movieId) => {
     setDeleting(true);
     const resp = await deleteMovie(movieId);
     setDeleting(false);
-
     if (resp?.success) {
-      setDeletingMovie(null);
+      setDeletingRecord(null);
       router.refresh();
     }
   };
@@ -78,12 +77,23 @@ export default function MovieTable({ movies }) {
         <TableBody>
           {movies.map((movie) => (
             <TableRow key={movie.id}>
-              <TableCell>Poster URL</TableCell>
-              <TableCell>{movie?.title ?? "N/A"}</TableCell>
-              <TableCell>{movie?.year ?? "N/A"}</TableCell>
-              <TableCell>{movie?.rated ?? "N/A"}</TableCell>
-              <TableCell>{movie?.imdb?.rating ?? "N/A"}</TableCell>
-              <TableCell>{movie?.genres?.join(", ")}</TableCell>
+              <TableCell>
+                <Image
+                  src={movie.poster ?? "/images/avatar.jpg"}
+                  alt="Poster"
+                  width={80}
+                  height={160}
+                  className="w-20 h-auto aspect-auto"
+                  priority
+                />
+              </TableCell>
+              <TableCell>
+                <div className="min-w-64 text-pretty">{movie.title}</div>
+              </TableCell>
+              <TableCell>{movie.year}</TableCell>
+              <TableCell>{movie.rated}</TableCell>
+              <TableCell>{movie.imdb?.rating ?? 0}</TableCell>
+              <TableCell>{movie.genres.join(", ")}</TableCell>
               <TableCell>
                 <div className="flex justify-end space-x-2">
                   <Button
@@ -111,18 +121,16 @@ export default function MovieTable({ movies }) {
       {editingMovie && (
         <EditMovieForm
           movie={editingMovie}
-          open={true}
           onSubmit={handleEditSubmit}
           onCancel={() => setEditingMovie(null)}
           isLoading={isSaving}
         />
       )}
-      {deletingMovie && (
+      {deletingRecord && (
         <DeleteMovieDialog
-          movie={deletingMovie}
-          open={true}
-          onCancel={() => setDeletingMovie(null)}
-          onConfirm={() => handleDeleteConfirm(deletingMovie?.id)}
+          movie={deletingRecord}
+          onConfirm={handleDeleteConfirm}
+          onCancel={() => setDeletingRecord(null)}
           isLoading={isDeleting}
         />
       )}
