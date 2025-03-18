@@ -10,6 +10,10 @@ module.exports = {
     container: {
       center: true,
       padding: "15px",
+      extend: {
+        minHeight: "100vh",
+        overflowY: "auto",
+      },
     },
     screen: {
       sm: "640px",
