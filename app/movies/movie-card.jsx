@@ -23,7 +23,7 @@ export default function MovieCard({
   const [posterUrl, setPosterUrl] = useState(poster);
 
   return (
-    <Card className="h-full overflow-hidden">
+    <Card className="overflow-hidden">
       <CardHeader className="p-0">
         <div className="group flex justify-center bg-black w-full h-[280px] mb-4 overflow-hidden">
           {poster && (

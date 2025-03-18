@@ -10,7 +10,7 @@ export const GET = async (req) => {
       .collection("movies")
       .find({})
       .sort({ metacritic: -1 })
-      .limit(4)
+      .limit(10)
       .toArray();
 
     return NextResponse.json(movies);
